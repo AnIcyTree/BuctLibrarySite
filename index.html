@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e9eeeb" />
+    <meta name="description" content="阅境：融入北京化工大学昌平校区图书馆的三维图书管理系统。环绕选书、知识引力场与完整馆藏借阅管理。" />
+    <title>阅境 · 北京化工大学图书馆</title>
+    <script type="module" crossorigin src="/assets/index-CGFv0q-V.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CNKH9CdM.css">
+  </head>
+  <body>
+    <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <symbol id="i-book" viewBox="0 0 32 32"><path d="M16 9c-4-3-9-3-12-2v18c4-1 8-1 12 2m0-18c4-3 9-3 12-2v18c-4-1-8-1-12 2V9Z"/><path d="M8 3c3 0 5 .6 8 2 3-1.4 5-2 8-2M8 12c2 0 3.5.3 5 1m-5 4c2 0 3.5.3 5 1m6-5c1.5-.7 3-1 5-1m-5 6c1.5-.7 3-1 5-1"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></symbol>
+        <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M19 9a7.5 7.5 0 0 0-13-2L3 10m0 0V4m0 6h6m-4 5a7.5 7.5 0 0 0 13 2l3-3m0 0v6m0-6h-6"/></symbol>
+        <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 1.5 7M3 10V4m0 6h6"/><path d="M12 7v5l3 2"/></symbol>
+        <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
+        <symbol id="i-mouse" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M12 2v7"/></symbol>
+        <symbol id="i-overview" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></symbol>
+        <symbol id="i-front" viewBox="0 0 24 24"><path d="M4 21V4h16v17M2 21h20M4 9h16M4 14h16M9 4v17m6-17v17"/></symbol>
+        <symbol id="i-door" viewBox="0 0 24 24"><path d="M5 21V3h14v18M2 21h20M9 21V7h7v14m-4-8h.1"/></symbol>
+        <symbol id="i-top" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h6V3m12 12h-6v6M9 9h6v6H9z"/></symbol>
+      </defs>
+    </svg>
+
+    <main id="app" aria-label="昌平校区图书馆三维外观展示">
+      <canvas id="scene-canvas" aria-label="图书馆三维建筑模型。拖动旋转，滚轮缩放，右键拖动平移。"></canvas>
+      <div class="scene-vignette" aria-hidden="true"></div>
+      <div id="labels" class="model-labels" aria-live="off"></div>
+
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="北京化工大学图书馆首页">
+          <span class="brand-mark"><svg><use href="#i-book"/></svg></span>
+          <span><strong>北京化工大学</strong><span class="brand-subtitle">BUCT · CAMPUS DIGITAL</span></span>
+        </a>
+        <nav class="top-nav" aria-label="展示导航">
+          <span class="nav-current" aria-current="page">外观漫游<span class="nav-dot"></span></span>
+          <button id="info-button" class="nav-link" type="button" aria-controls="info-drawer" aria-expanded="false">建筑档案<svg><use href="#i-arrow"/></svg></button>
+        </nav>
+        <div class="campus-tag"><span class="status-dot"></span>昌平校区<span class="tag-divider"></span><span class="campus-en">CHANGPING</span></div>
+      </header>
+
+      <section class="intro" aria-label="建筑介绍">
+        <p class="eyebrow"><span></span>校园建筑数字展示</p>
+        <h1><span>山水之间，</span><span>一卷书香。</span></h1>
+        <div class="intro-rule"></div>
+        <p class="building-name">昌平校区图书馆</p>
+        <p class="building-en">CHANGPING CAMPUS LIBRARY</p>
+        <p class="intro-copy">以书为形，与山水共读。<br />在光影之间，遇见北化。</p>
+        <div class="building-stats">
+          <div><span class="stat-value">5<span>万 m²</span></span><span class="stat-label">建筑面积约</span></div>
+          <span class="stat-divider"></span>
+          <div><span class="stat-value">2017</span><span class="stat-label">正式启用</span></div>
+        </div>
+      </section>
+
+      <div class="scene-tools" aria-label="场景设置">
+        <button id="lighting-toggle" class="tool-button" type="button" aria-label="切换日夜光照" aria-pressed="false"><svg><use href="#i-sun"/></svg><span class="button-text">日景</span></button>
+        <span class="tool-divider"></span>
+        <button id="auto-rotate" class="tool-button" type="button" aria-label="自动环绕建筑" aria-pressed="false"><svg><use href="#i-rotate"/></svg><span class="button-text">自动环绕</span></button>
+        <span class="tool-divider"></span>
+        <button id="annotations-toggle" class="tool-button icon-only" type="button" aria-label="显示建筑标注" aria-pressed="false" title="建筑标注"><svg><use href="#i-pin"/></svg></button>
+      </div>
+
+      <aside class="architecture-note" aria-label="外观设计特点">
+        <span class="note-number">01<span>/</span> ARCHITECTURE</span>
+        <p>错叠的书页<br /><span>红色陶板与通透玻璃，<br />勾勒知识的轮廓。</span></p>
+        <span class="note-line"></span>
+      </aside>
+
+      <div class="view-controls" role="group" aria-label="建筑观察视角">
+        <div class="view-presets">
+          <button type="button" class="view-button active" data-view="overview" aria-pressed="true"><svg><use href="#i-overview"/></svg><span>全景</span></button>
+          <button type="button" class="view-button" data-view="front" aria-pressed="false"><svg><use href="#i-front"/></svg><span>主立面</span></button>
+          <button type="button" class="view-button" data-view="rear" aria-pressed="false"><svg><use href="#i-front"/></svg><span>后立面</span></button>
+          <button type="button" class="view-button" data-view="entrance" aria-pressed="false"><svg><use href="#i-door"/></svg><span>入口</span></button>
+          <button type="button" class="view-button" data-view="top" aria-pressed="false"><svg><use href="#i-top"/></svg><span>俯视</span></button>
+        </div>
+        <span class="controls-divider"></span>
+        <button id="reset-view" class="control-icon" type="button" aria-label="恢复初始视角" title="恢复视角"><svg><use href="#i-reset"/></svg></button>
+        <button id="fullscreen" class="control-icon" type="button" aria-label="全屏查看" title="全屏查看"><svg><use href="#i-expand"/></svg></button>
+      </div>
+
+      <footer class="scene-footer">
+        <p class="interaction-hint"><svg><use href="#i-mouse"/></svg><span>拖动旋转<span class="hint-dot">·</span>滚轮缩放<span class="hint-dot">·</span>右键平移</span></p>
+        <p class="footer-caption">北京化工大学<span>BEIJING UNIVERSITY OF CHEMICAL TECHNOLOGY</span></p>
+      </footer>
+
+      <div id="loading" class="loading-screen" role="status" aria-live="polite"><div class="loading-symbol"><svg><use href="#i-book"/></svg></div><p>正在构筑一卷书香</p><span id="loading-label">加载建筑场景…</span><div class="loading-track"><span></span></div></div>
+      <div id="webgl-error" class="error-screen" role="alert" hidden><svg><use href="#i-book"/></svg><h2>三维场景暂时无法打开</h2><p>请使用支持 WebGL 的浏览器，并开启硬件加速后重新加载页面。</p><button type="button" onclick="location.reload()">重新加载</button></div>
+    </main>
+
+    <footer class="site-copyright">Copyright © 2026 小组202 NOT FOUND.<span> All Rights Reserved.</span></footer>
+
+    <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+    <aside id="info-drawer" class="info-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden tabindex="-1">
+      <div class="drawer-heading"><span class="eyebrow">BUILDING ARCHIVE</span><button id="close-info" class="control-icon" type="button" aria-label="关闭建筑档案"><svg><use href="#i-close"/></svg></button></div>
+      <p class="drawer-kicker">北京化工大学 · 昌平校区</p>
+      <h2 id="drawer-title">图书馆<br /><span>一座可以阅读的建筑</span></h2>
+      <p class="drawer-lead">玉屏山下，柳湖岸边，红色陶板与玻璃幕墙交织，建筑如同错落叠放的书籍，成为校园中的知识坐标。</p>
+      <dl class="archive-details"><div><dt>正式投入使用</dt><dd>2017 年 9 月 13 日</dd></div><div><dt>建筑面积</dt><dd>约 5 万平方米</dd></div><div><dt>外观特征</dt><dd>横向陶板 · 玻璃幕墙 · 内凹曲面</dd></div><div><dt>本次展示</dt><dd>建筑外观与周边场地</dd></div></dl>
+      <div class="archive-section"><h3>关于这份模型</h3><p>依据校园实景照片和提供的参考图片进行外观近似重建。细部、比例与周边景观经过展示性简化，不作为建筑测绘或工程图纸使用。</p></div>
+      <div class="archive-section">
+        <h3>高清实景参考</h3>
+        <p class="reference-intro">从实景中读懂建筑。点击照片，打开高清原图。</p>
+        <div class="reference-gallery">
+          <a class="reference-card reference-featured" href="/references/library-angle-4000.jpg" target="_blank" rel="noopener noreferrer" aria-label="打开建筑全貌高清原图，4000乘3000像素">
+            <img src="/references/library-angle-4000.jpg" alt="昌平校区图书馆的建筑全貌，呈现错叠体块与弧形玻璃立面" width="4000" height="3000" loading="lazy" decoding="async" />
+            <span class="reference-caption"><span>建筑全貌<span class="reference-resolution">4000 × 3000</span></span><svg><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="reference-card" href="/references/library-night-2400.jpg" target="_blank" rel="noopener noreferrer" aria-label="打开图书馆夜景高清原图，2400乘1350像素">
+            <img src="/references/library-night-2400.jpg" alt="昌平校区图书馆亮灯后的夜景" width="2400" height="1350" loading="lazy" decoding="async" />
+            <span class="reference-caption"><span>暮色灯光<span class="reference-resolution">2400 × 1350</span></span><svg><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="reference-card" href="/references/library-front-1800.jpg" target="_blank" rel="noopener noreferrer" aria-label="打开图书馆主立面高清原图，1800乘1200像素">
+            <img src="/references/library-front-1800.jpg" alt="昌平校区图书馆主立面的红色陶板、玻璃与横向线条" width="1800" height="1200" loading="lazy" decoding="async" />
+            <span class="reference-caption"><span>主立面细节<span class="reference-resolution">1800 × 1200</span></span><svg><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+      <div class="archive-section archive-sources"><h3>参考资料</h3><a href="https://library.buct.edu.cn/bgjs/list.htm" target="_blank" rel="noopener noreferrer"><span>北京化工大学图书馆 · 本馆介绍</span><svg><use href="#i-arrow"/></svg></a><a href="https://bq.buct.edu.cn/216/list.htm" target="_blank" rel="noopener noreferrer"><span>昌平校区 · 校区介绍与实景</span><svg><use href="#i-arrow"/></svg></a></div>
+      <p class="drawer-end">以书为形 · 与山水共读</p>
+    </aside>
+  </body>
+</html>
+
+
